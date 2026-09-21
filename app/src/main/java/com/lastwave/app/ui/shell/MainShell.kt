@@ -40,6 +40,7 @@ import androidx.compose.material.icons.automirrored.filled.QueueMusic
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.CloudDownload
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Leaderboard
 import androidx.compose.material3.Icon
@@ -72,6 +73,7 @@ import com.lastwave.app.ui.feed.FeedScreen
 import com.lastwave.app.ui.home.HomeScreen
 import com.lastwave.app.ui.player.LocalMiniPlayerScrollClearance
 import com.lastwave.app.ui.playlist.PlaylistScreen
+import com.lastwave.app.ui.settings.DownloadsScreen
 import com.lastwave.app.ui.theme.LiquidGlassPreset
 import com.lastwave.app.ui.theme.LocalLiquidGlass
 import com.kyant.backdrop.backdrops.LayerBackdrop
@@ -104,6 +106,7 @@ private enum class MainTab(val label: String) {
     FEED("Feed"),
     STATS("Stats"),
     PLAYLISTS("Playlists"),
+    DOWNLOADS("Downloads"),
 }
 
 /** Shared with any screen hosted inside [MainShell] so their scrolling
@@ -186,11 +189,11 @@ fun MainShell(
                         onOpenFriends = onOpenFriends,
                     )
                     MainTab.PLAYLISTS -> PlaylistScreen(onOpenPlaylist = onOpenPlaylist)
+                    MainTab.DOWNLOADS -> DownloadsScreen(onBack = null)
                 }
             }
         }
 
-        // App update prompt banner (only shown on app open when an update is available and not dismissed)
         AnimatedVisibility(
             visible = showUpdateBanner,
             enter = slideInVertically(initialOffsetY = { -it }) + fadeIn(),
@@ -334,7 +337,6 @@ private fun FloatingNavBar(
                 }
             }
 
-            // Satellite Companion Generator Button (only visible on Playlists tab)
             AnimatedVisibility(
                 visible = selectedIndex == tabs.indexOf(MainTab.PLAYLISTS),
                 enter = fadeIn(animationSpec = tween(180)) +
@@ -445,4 +447,5 @@ private fun MainTab.icon(): ImageVector = when (this) {
     MainTab.FEED -> Icons.Filled.Home
     MainTab.STATS -> Icons.Filled.Leaderboard
     MainTab.PLAYLISTS -> Icons.AutoMirrored.Filled.QueueMusic
+    MainTab.DOWNLOADS -> Icons.Filled.Download
 }
